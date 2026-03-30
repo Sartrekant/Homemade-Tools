@@ -1,0 +1,81 @@
+# Paperclip company configuration — agentcompanies/v1-draft
+# Import this file in the Paperclip UI under Company > Import.
+#
+# This defines the agent org structure for the homemade-tools business:
+#   - A CEO agent that strategises, breaks down goals, and delegates tasks
+#   - A Dev agent that builds and ships tools in this repo
+#   - A Client agent that handles managed Paperclip deployments for clients
+#
+# Agents use the claude_local adapter, which runs the local `claude` CLI.
+# Make sure `claude` is installed and authenticated before starting agents:
+#   npx @anthropic-ai/claude-code --version
+
+apiVersion: agentcompanies/v1-draft
+
+company:
+  name: Homemade Tools Co.
+  goal: >
+    Build, ship, and maintain a growing suite of homemade tools autonomously.
+    Operate managed Paperclip deployments for external clients. Grow revenue
+    by expanding the tools catalogue and acquiring new managed-hosting clients.
+
+agents:
+  - id: ceo
+    name: CEO
+    role: >
+      Oversee company strategy. Break down high-level goals into concrete tasks.
+      Delegate tasks to the dev and client agents. Review completed work and
+      decide what to prioritise next. Report progress to the board.
+    adapter: claude_local
+    cwd: "{{repo_root}}"
+    reportsTo: board
+    budgetMonthlyCents: 5000
+    heartbeat:
+      wakeOnAssignment: true
+      wakeOnOnDemand: true
+      wakeOnAutomation: false
+    promptTemplate: >
+      You are the CEO of Homemade Tools Co. Your job is to translate board
+      goals into actionable tasks and coordinate the dev and client agents.
+      Repository: {{repo_root}}. Always prefer small, shippable tasks over
+      large batches of work.
+
+  - id: dev
+    name: Dev
+    role: >
+      Build and maintain tools in the homemade-tools repository. Write clean,
+      tested TypeScript/React code. Each tool lives in its own subdirectory.
+      Open issues for blockers. Mark tasks complete when tests pass.
+    adapter: claude_local
+    cwd: "{{repo_root}}"
+    reportsTo: ceo
+    budgetMonthlyCents: 10000
+    heartbeat:
+      wakeOnAssignment: true
+      wakeOnOnDemand: false
+      wakeOnAutomation: false
+    promptTemplate: >
+      You are a senior developer at Homemade Tools Co. working inside the
+      homemade-tools monorepo at {{repo_root}}. Each tool is a self-contained
+      Vite + React + TypeScript app in its own subdirectory. Write tests with
+      Vitest. Follow the patterns already established in qr-code-generator/.
+
+  - id: client-ops
+    name: Client Ops
+    role: >
+      Manage Paperclip deployments for external clients. Set up new client
+      instances using docker-compose.prod.yml. Monitor health. Handle
+      onboarding, billing, and support escalations.
+    adapter: claude_local
+    cwd: "{{repo_root}}/paperclip"
+    reportsTo: ceo
+    budgetMonthlyCents: 3000
+    heartbeat:
+      wakeOnAssignment: true
+      wakeOnOnDemand: true
+      wakeOnAutomation: false
+    promptTemplate: >
+      You are the client operations agent for Homemade Tools Co. You manage
+      self-hosted Paperclip instances for clients. Configuration lives in
+      {{repo_root}}/paperclip/. Use docker-compose.prod.yml for new client
+      deployments. Document each client in a clients/ subdirectory.

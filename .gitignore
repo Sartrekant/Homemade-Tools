@@ -1,0 +1,8 @@
+# Paperclip
+paperclip/.env
+paperclip/data/
+
+# Node
+node_modules/
+dist/
+.DS_Store
