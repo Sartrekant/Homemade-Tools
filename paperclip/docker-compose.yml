@@ -1,0 +1,25 @@
+# Paperclip — local quickstart
+# Single container with embedded postgres. Run: bash setup.sh
+#
+# Upgrade to docker-compose.prod.yml when deploying for clients.
+
+services:
+  paperclip:
+    image: ghcr.io/paperclipai/paperclip:latest
+    pull_policy: always
+    ports:
+      - "${PORT:-3100}:3100"
+    environment:
+      HOST: "0.0.0.0"
+      PORT: "3100"
+      SERVE_UI: "true"
+      PAPERCLIP_HOME: "/paperclip"
+      PAPERCLIP_DEPLOYMENT_MODE: "${PAPERCLIP_DEPLOYMENT_MODE:-authenticated}"
+      PAPERCLIP_DEPLOYMENT_EXPOSURE: "${PAPERCLIP_DEPLOYMENT_EXPOSURE:-private}"
+      PAPERCLIP_PUBLIC_URL: "${PAPERCLIP_PUBLIC_URL:-http://localhost:3100}"
+      BETTER_AUTH_SECRET: "${BETTER_AUTH_SECRET:?BETTER_AUTH_SECRET must be set — run: bash setup.sh}"
+      ANTHROPIC_API_KEY: "${ANTHROPIC_API_KEY:-}"
+      OPENAI_API_KEY: "${OPENAI_API_KEY:-}"
+    volumes:
+      - "${PAPERCLIP_DATA_DIR:-./data}:/paperclip"
+    restart: unless-stopped
