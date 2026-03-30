@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+/* ── Brand CSS Variables ──────────────────────────────────────── */
+:root {
+  /* Brand palette — earth tones only */
+  --linen:        #FAF9F6;
+  --sand:         #D2B48C;
+  --slate:        #475569;
+  --forest:       #166534;
+  --oak:          #8B6F47;
+  --bark:         #1C1917;
+
+  /* shadcn/ui semantic tokens */
+  --background:         var(--linen);
+  --foreground:         var(--bark);
+  --card:               #F5F3EF;
+  --card-foreground:    var(--bark);
+  --popover:            var(--linen);
+  --popover-foreground: var(--bark);
+  --primary:            var(--bark);
+  --primary-foreground: var(--linen);
+  --secondary:          #EDE9E3;
+  --secondary-foreground: var(--bark);
+  --muted:              #EDE9E3;
+  --muted-foreground:   var(--slate);
+  --accent:             var(--forest);
+  --accent-foreground:  var(--linen);
+  --border:             #D6D0C8;
+  --input:              #D6D0C8;
+  --ring:               var(--bark);
+  --radius:             0;
+}
+
+/* ── Tailwind v4 theme mapping ───────────────────────────────── */
+@theme inline {
+  --color-background:       var(--background);
+  --color-foreground:       var(--foreground);
+  --color-card:             var(--card);
+  --color-card-foreground:  var(--card-foreground);
+  --color-primary:          var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary:        var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted:            var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent:           var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border:           var(--border);
+  --color-input:            var(--input);
+  --color-ring:             var(--ring);
+
+  /* Brand colors available as Tailwind utilities */
+  --color-linen:  var(--linen);
+  --color-sand:   var(--sand);
+  --color-slate:  var(--slate);
+  --color-forest: var(--forest);
+  --color-oak:    var(--oak);
+  --color-bark:   var(--bark);
+
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono);
+}
+
+/* ── Base styles ─────────────────────────────────────────────── */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter, "Inter", system-ui, sans-serif);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  border-color: var(--border);
+}
+
+/* ── Typography ──────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.02em;
+  font-weight: 500;
+  line-height: 1.1;
+}
