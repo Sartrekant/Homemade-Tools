@@ -5,8 +5,10 @@
 //        Commercial use (charging users / generating revenue) may require license fee.
 
 import type { Catalog, ConnectorResult, Offer, Store } from "@/lib/types";
+import { MOCK_CATALOGS, MOCK_OFFERS, MOCK_STORES } from "@/lib/mock-data";
 
 const BASE_URL = "https://api.rema.no";
+const USE_MOCK = !process.env.REMA_SUBSCRIPTION_KEY;
 
 function headers(): HeadersInit {
   const key = process.env.REMA_SUBSCRIPTION_KEY;
@@ -42,6 +44,9 @@ interface RemaOffer {
 export async function getOffers(
   storeId?: string
 ): Promise<ConnectorResult<Offer[]>> {
+  if (USE_MOCK) {
+    return { ok: true, data: MOCK_OFFERS.filter((o) => o.source === "rema") };
+  }
   try {
     // The official portal endpoint — falls back to store-specific offers if storeId given
     const path = storeId
@@ -114,6 +119,9 @@ interface RemaStore {
 export async function getStores(
   zip?: string
 ): Promise<ConnectorResult<Store[]>> {
+  if (USE_MOCK) {
+    return { ok: true, data: MOCK_STORES.filter((s) => s.source === "rema") };
+  }
   try {
     const url = zip
       ? `${BASE_URL}/stores?zip=${zip}&country=DK`
@@ -163,6 +171,9 @@ interface RemaCatalog {
 }
 
 export async function getCatalogs(): Promise<ConnectorResult<Catalog[]>> {
+  if (USE_MOCK) {
+    return { ok: true, data: MOCK_CATALOGS.filter((c) => c.source === "rema") };
+  }
   try {
     const res = await fetch(`${BASE_URL}/catalogs`, {
       headers: headers(),

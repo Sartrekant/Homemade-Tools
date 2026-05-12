@@ -5,8 +5,10 @@
 // Key sent as header: Ocp-Apim-Subscription-Key
 
 import type { Catalog, Chain, ConnectorResult, Offer } from "@/lib/types";
+import { MOCK_CATALOGS, MOCK_OFFERS } from "@/lib/mock-data";
 
 const BASE_URL = "https://api.cl.coop.dk";
+const USE_MOCK = !process.env.COOP_SUBSCRIPTION_KEY;
 
 function headers(): HeadersInit {
   const key = process.env.COOP_SUBSCRIPTION_KEY;
@@ -49,6 +51,12 @@ interface CoopPublication {
 }
 
 export async function getPublications(): Promise<ConnectorResult<Catalog[]>> {
+  if (USE_MOCK) {
+    return {
+      ok: true,
+      data: MOCK_CATALOGS.filter((c) => c.source === "coop"),
+    };
+  }
   try {
     const res = await fetch(
       `${BASE_URL}/marketingapi/v1.1/marketing/etilbudsavispublications`,
@@ -104,6 +112,12 @@ interface CoopIpaperOffer {
 export async function getIpaperOffers(
   publicationId?: string
 ): Promise<ConnectorResult<Offer[]>> {
+  if (USE_MOCK) {
+    return {
+      ok: true,
+      data: MOCK_OFFERS.filter((o) => o.source === "coop"),
+    };
+  }
   try {
     const url = publicationId
       ? `${BASE_URL}/marketingapi/v1.1/marketing/ipaperOffers?publicationId=${publicationId}`

@@ -5,8 +5,10 @@
 // Rate limit: 10,000 requests/day
 
 import type { Chain, ConnectorResult, Offer, Store } from "@/lib/types";
+import { MOCK_OFFERS, MOCK_STORES } from "@/lib/mock-data";
 
 const BASE_URL = "https://api.sallinggroup.com";
+const USE_MOCK = !process.env.SALLING_API_KEY;
 
 function headers(): HeadersInit {
   const token = process.env.SALLING_API_KEY;
@@ -58,6 +60,12 @@ interface SallingFoodWasteStore {
 export async function getFoodWasteByZip(
   zip: string
 ): Promise<ConnectorResult<Offer[]>> {
+  if (USE_MOCK) {
+    return {
+      ok: true,
+      data: MOCK_OFFERS.filter((o) => o.source === "salling"),
+    };
+  }
   try {
     const res = await fetch(`${BASE_URL}/v1/food-waste/?zip=${zip}`, {
       headers: headers(),
@@ -104,6 +112,12 @@ export async function getFoodWasteByCoords(
   lng: number,
   radiusKm = 5
 ): Promise<ConnectorResult<Offer[]>> {
+  if (USE_MOCK) {
+    return {
+      ok: true,
+      data: MOCK_OFFERS.filter((o) => o.source === "salling"),
+    };
+  }
   try {
     const res = await fetch(
       `${BASE_URL}/v1/food-waste/?geo=${lat},${lng}&radius=${radiusKm}`,
@@ -175,6 +189,12 @@ interface SallingStore {
 export async function getStores(
   zip?: string
 ): Promise<ConnectorResult<Store[]>> {
+  if (USE_MOCK) {
+    return {
+      ok: true,
+      data: MOCK_STORES.filter((s) => s.source === "salling"),
+    };
+  }
   try {
     const url = zip
       ? `${BASE_URL}/v2/stores?zip=${zip}&country=DK`
