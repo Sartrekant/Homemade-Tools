@@ -1,0 +1,29 @@
+{
+  "name": "pagespeed-agent",
+  "version": "1.0.0",
+  "description": "Autonomous PageSpeed optimization agent — loops until 100/100",
+  "type": "module",
+  "main": "agent.js",
+  "scripts": {
+    "start": "node agent.js",
+    "optimize": "node agent.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.52.0",
+    "axios": "^1.7.0",
+    "chalk": "^5.3.0",
+    "cheerio": "^1.0.0",
+    "cssnano": "^7.0.0",
+    "dotenv": "^16.4.0",
+    "fs-extra": "^11.2.0",
+    "glob": "^11.0.0",
+    "lighthouse": "^12.0.0",
+    "postcss": "^8.4.0",
+    "purgecss": "^6.0.0",
+    "sharp": "^0.33.0",
+    "terser": "^5.31.0"
+  }
+}

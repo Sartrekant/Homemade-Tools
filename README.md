@@ -13,6 +13,7 @@ This repo serves two purposes:
 | Tool | Description |
 |------|-------------|
 | [qr-code-generator](./qr-code-generator) | QR code generator (URL, phone, email, SMS, WiFi). Vite + React + TypeScript. |
+| [pagespeed-agent](./pagespeed-agent) | Autonomous PageSpeed optimization agent — loops until 100/100 on all Lighthouse categories. Node.js CLI. |
 
 ---
 
@@ -78,5 +79,6 @@ paperclip/
   .env.example          # All env vars documented
   setup.sh              # One-command local setup
 qr-code-generator/      # Tool: QR code generator
+pagespeed-agent/        # Tool: Autonomous PageSpeed optimizer
 LICENSE
 ```
